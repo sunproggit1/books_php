@@ -8,7 +8,7 @@
 
                                         
                                     
-                                        echo "<form action='comment.php' method='post'>
+                                        echo "<form action='comment.php' method='get'>
                                        <input type='text' hidden name='theme_id' value='".$row['id']."'>
                                        <input type='text' hidden name='janre_name' value='".$row['janre_name']."'>
                                        <textarea hidden name='janre_curr_books'>".$row['janre_curr_books']."</textarea>

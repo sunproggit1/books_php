@@ -20,6 +20,7 @@ $janre_name = $_SESSION['janre_name'];
 $nickname = $_SESSION['nickname'];
 $janre_curr_books = $_SESSION['janre_curr_books'];
 
+print_r($_SESSION);
 
 
 if (isset($_POST["submit1"]))
@@ -114,31 +115,25 @@ mysqli_stmt_close($stmt);}
     ?>
   </div>
   <div class="col-lg-6">
-             <blockquote><q>Тема: <? echo $janre_name;?></q>
-              <?
-               $sql1 = "SELECT * FROM themeimages where janre_name = '".$janre_name."'";
-                    if($result1 = mysqli_query($link, $sql1)){
-                      if(mysqli_num_rows($result1) > 0) {
-                          while($row = mysqli_fetch_array($result1, MYSQLI_ASSOC)){
-                                    
-                                    //<button type='button' id='profilebtn' onclick='openForm()'>Добавить фотографию</button>
-                                         echo "
-                                         <div class='panel panel-default'>
-                                       <img width='250px' class='thumbnail' style='margin: 7px 0 7px 7px;' src='themeimg/".$row['themeimg']."'>
-                                       </div>";
-                                       
-                                     
-                                   }
-                                 }
-                                
-
-                            // Free result set
-                            mysqli_free_result($result1);
-                         
-                    } 
-              ?>
-             </blockquote>
-              <br>
+      <blockquote><q>Тема: <? echo $janre_name;?></q>
+        <?
+          $sql1 = "SELECT * FROM themeimages where janre_name = '".$janre_name."'";
+          if($result1 = mysqli_query($link, $sql1)){
+            if(mysqli_num_rows($result1) > 0) {
+              while($row = mysqli_fetch_array($result1, MYSQLI_ASSOC)){
+              
+              //<button type='button' id='profilebtn' onclick='openForm()'>Добавить фотографию</button>
+              echo "
+              <div class='panel panel-default'>
+              <img width='250px' class='thumbnail' style='margin: 7px 0 7px 7px;' src='themeimg/".$row['themeimg']."'>
+              </div>";
+            }
+          }
+        mysqli_free_result($result1);
+      } 
+    ?>
+    </blockquote>
+    <br>
     <div >
                     <?
    if($_SESSION['role'] =='admin') echo '
@@ -156,12 +151,11 @@ mysqli_stmt_close($stmt);}
 </div><div>
    <span id="book_message"></span>
    <br />
-
   <form  method="POST" id="search" enctype="multipart/form-data" >
   <div>Search for book name:</div>
   <input type="text" name="bname_search" id="bname_search">
   <input type="submit" name="submitsearch" class="btn btn-info" id="submitsearch" value="Поиск">
-</form>';
+</form>
    <div id="display_book"></div>
   </div>
   
@@ -226,22 +220,18 @@ let timer = setInterval(load_comment,10000);
 });
 </script>
 
-<?
-
-print_r($_COOKIE);
-?>
   </div>
   <div class="col-lg-3 col-md-offset">
    Добавить фотографию
 <form action = "" id="profileform" style="display:none;
   background-color: #cee7f4;"class="form-popup" class="panel panel-default" method="post" enctype="multipart/form-data">
-                                        <label>Title</label>
-                                        <input type="text" name="filetitle">
-                                        <label>File Upload</label>
-                                        <input type="File" name="file">
-                                        <button type="button" id="profilebtn" onclick='closeForm()'>Закрыть</button>
-                                        <input type="submit" name="submit1">
-                                              </form>
+   <label>Title</label>
+   <input type="text" name="filetitle">
+   <label>File Upload</label>
+   <input type="File" name="file">
+   <button type="button" id="profilebtn" onclick='closeForm()'>Закрыть</button>
+   <input type="submit" name="submit1">
+   </form>                                                                          
              <script type="text/javascript">
               function openForm() {
                     document.getElementById('profileform').style.display = "block";
@@ -255,30 +245,24 @@ print_r($_COOKIE);
            
         <?
  $sql1 = "SELECT * FROM themeimages where janre_name = '".$janre_name."'";
-                    if($result1 = mysqli_query($link, $sql1)){
-                      if(mysqli_num_rows($result1) > 0) {
-                          while($row = mysqli_fetch_array($result1, MYSQLI_ASSOC)){
-                                    if($janre_name == $_SESSION['janre_name']){
-                                      echo "<button type='button' id='profilebtn' onclick='openForm()'>Добавить фотографию</button>";
-                                    }
-                                    //<button type='button' id='profilebtn' onclick='openForm()'>Добавить фотографию</button>
-                                         echo "
-                                         <div class='panel panel-default'>
-                                       <img width='50px' class='thumbnail' style='margin: 7px 0 7px 7px;' src='themeimg/".$row['themeimg']."'>
-                                       </div>";
-                                       
-                                     
-                                   }
-                                 }
-                                 elseif(mysqli_num_rows($result1) < 1 && $janre_name == $_SESSION['janre_name']){
-                                  echo '<button type="button" id="profilebtn" onclick="openForm()">Добавить фотографию</button>';
-                                 }
-                                
-
-                            // Free result set
-                            mysqli_free_result($result1);
-                         
-                    } 
+    if($result1 = mysqli_query($link, $sql1)){
+      if(mysqli_num_rows($result1) > 0) {
+        while($row = mysqli_fetch_array($result1, MYSQLI_ASSOC)){
+          if($janre_name == $_SESSION['janre_name']){
+            echo "<button type='button' id='profilebtn' onclick='openForm()'>Добавить фотографию</button>";
+          }
+          //<button type='button' id='profilebtn' onclick='openForm()'>Добавить фотографию</button>
+          echo "
+            <div class='panel panel-default'>
+            <img width='50px' class='thumbnail' style='margin: 7px 0 7px 7px;' src='themeimg/".$row['themeimg']."'>
+            </div>";
+          }
+        }
+        elseif(mysqli_num_rows($result1) < 1 && $janre_name == $_SESSION['janre_name']){
+          echo '<button type="button" id="profilebtn" onclick="openForm()">Добавить фотографию</button>';
+        }
+      mysqli_free_result($result1);
+    } 
 ?>
 
 
